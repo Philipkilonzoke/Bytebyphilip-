@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Article - Byte by Philip">
+    <title>Article - Byte by Philip</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        .article-header {
+            margin-bottom: 2rem;
+        }
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+        .article-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: var(--radius-xl);
+            margin-bottom: 2rem;
+        }
+        .article-body {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        .article-body h2 {
+            color: var(--color-text-primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+        }
+        .article-body h3 {
+            color: var(--color-text-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+        }
+        .article-body p {
+            margin-bottom: 1.5rem;
+        }
+        .article-body a {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+        .article-body img {
+            border-radius: var(--radius-lg);
+            margin: 2rem 0;
+        }
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="site-header" class="site-header" data-testid="header-main">
+        <div class="header-container">
+            <div class="header-left">
+                <button id="menu-toggle" class="icon-btn menu-toggle" aria-label="Toggle menu" data-testid="button-menu-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <a href="/" class="header-brand" data-testid="link-home">
+                    <img src="assets/logo.png" alt="Byte by Philip" class="header-logo">
+                    <span class="header-brand-text">Byte by Philip</span>
+                </a>
+            </div>
+            <div class="header-right">
+                <button id="search-toggle" class="icon-btn" aria-label="Search" data-testid="button-search-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+                <a href="cart.html" class="icon-btn cart-btn" data-testid="link-cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cart-count" data-testid="text-cart-count">0</span>
+                </a>
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" data-testid="button-theme-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar" data-testid="sidebar-menu"></nav>
+    <div id="sidebar-overlay" class="sidebar-overlay" data-testid="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <article class="article-container" id="article-content" data-testid="article-content">
+            <!-- Will be populated by JavaScript -->
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" data-testid="footer-main"></footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" data-testid="toast-notification"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
+    <script type="module">
+        import { getArticleBySlug } from './firestore-helpers.js';
+        import { showToast } from './app.js';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const slug = urlParams.get('slug');
+
+        async function loadArticle() {
+            if (!slug) {
+                window.location.href = 'news.html';
+                return;
+            }
+
+            try {
+                const article = await getArticleBySlug(slug);
+                if (!article) {
+                    showToast('Article not found', 'error');
+                    setTimeout(() => window.location.href = 'news.html', 2000);
+                    return;
+                }
+
+                renderArticle(article);
+                updateMetaTags(article);
+            } catch (error) {
+                console.error('Error loading article:', error);
+                showToast('Failed to load article', 'error');
+            }
+        }
+
+        function renderArticle(article) {
+            const container = document.getElementById('article-content');
+            const publishDate = new Date(article.publishedAt?.seconds * 1000 || article.publishedAt);
+            const formattedDate = publishDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            container.innerHTML = `
+                <div class="article-header">
+                    <h1 style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem;" data-testid="text-article-title">${article.title}</h1>
+                    <div class="article-meta">
+                        <span data-testid="text-article-author">By ${article.author || 'Philip'}</span>
+                        <span>•</span>
+                        <span data-testid="text-article-date">${formattedDate}</span>
+                    </div>
+                </div>
+                ${article.image ? `<img src="${article.image}" alt="${article.title}" class="article-image" data-testid="img-article">` : ''}
+                <div class="article-body" data-testid="text-article-body">
+                    ${article.body}
+                </div>
+                <div class="share-buttons">
+                    <button class="btn btn-outline" onclick="navigator.share ? navigator.share({title: '${article.title}', url: window.location.href}) : alert('Sharing not supported')" data-testid="button-share">Share Article</button>
+                    <a href="news.html" class="btn btn-outline" data-testid="button-back-to-news">← Back to News</a>
+                </div>
+            `;
+        }
+
+        function updateMetaTags(article) {
+            document.title = `${article.title} - Byte by Philip`;
+            document.querySelector('meta[name="description"]').content = article.excerpt;
+        }
+
+        loadArticle();
+    </script>
+</body>
+</html>

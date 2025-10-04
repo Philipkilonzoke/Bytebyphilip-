@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard - Byte by Philip</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .login-box {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            max-width: 400px;
+            width: 100%;
+        }
+        .admin-dashboard {
+            display: none;
+            padding: 2rem 0;
+        }
+        .admin-dashboard.active {
+            display: block;
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        .admin-tab {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        .admin-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+        .admin-panel {
+            display: none;
+        }
+        .admin-panel.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text-primary);
+            font-family: inherit;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 224, 255, 0.1);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 1rem;
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            font-weight: 600;
+        }
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .data-table tr:hover {
+            background: var(--color-surface);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-success {
+            background: rgba(0, 208, 132, 0.2);
+            color: var(--color-success);
+        }
+        .badge-error {
+            background: rgba(255, 85, 85, 0.2);
+            color: var(--color-error);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg-elevated) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen" data-testid="login-screen">
+        <div class="login-box">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <img src="assets/logo.png" alt="Byte by Philip" style="width: 80px; height: 80px; margin: 0 auto 1rem; border-radius: var(--radius-md);">
+                <h1 style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;">Admin Dashboard</h1>
+                <p style="color: var(--color-text-secondary);">Enter password to continue</p>
+            </div>
+            <div class="form-group">
+                <label for="admin-password">Password</label>
+                <input type="password" id="admin-password" class="form-input" placeholder="Enter admin password" data-testid="input-admin-password">
+            </div>
+            <button id="login-btn" class="btn btn-primary" style="width: 100%;" data-testid="button-admin-login">Login</button>
+            <div id="login-error" style="color: var(--color-error); margin-top: 1rem; text-align: center; display: none;" data-testid="text-login-error"></div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="admin-dashboard">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1 style="font-family: var(--font-display); font-size: 2rem; font-weight: 700;">Admin Dashboard</h1>
+                <button id="logout-btn" class="btn btn-outline" data-testid="button-logout">Logout</button>
+            </div>
+
+            <div class="admin-tabs" data-testid="admin-tabs">
+                <button class="admin-tab active" data-tab="overview" data-testid="tab-overview">Overview</button>
+                <button class="admin-tab" data-tab="products" data-testid="tab-products">Products</button>
+                <button class="admin-tab" data-tab="articles" data-testid="tab-articles">Articles</button>
+                <button class="admin-tab" data-tab="categories" data-testid="tab-categories">Categories</button>
+                <button class="admin-tab" data-tab="rss" data-testid="tab-rss">RSS Feeds</button>
+                <button class="admin-tab" data-tab="settings" data-testid="tab-settings">Settings</button>
+            </div>
+
+            <!-- Overview Panel -->
+            <div id="panel-overview" class="admin-panel active" data-testid="panel-overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-products" data-testid="stat-products">0</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-articles" data-testid="stat-articles">0</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-categories" data-testid="stat-categories">0</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-rss" data-testid="stat-rss">6</div>
+                        <div class="stat-label">RSS Feeds</div>
+                    </div>
+                </div>
+                <p style="color: var(--color-text-secondary);">Welcome to the admin dashboard. Use the tabs above to manage your content.</p>
+            </div>
+
+            <!-- Products Panel -->
+            <div id="panel-products" class="admin-panel" data-testid="panel-products">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Manage Products</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Note: Full CRUD functionality for products is implemented in admin.js</p>
+                <button class="btn btn-primary" id="add-product-btn" data-testid="button-add-product">Add New Product</button>
+                <div id="products-list" style="margin-top: 1.5rem;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Articles Panel -->
+            <div id="panel-articles" class="admin-panel" data-testid="panel-articles">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Manage Articles</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Note: Full CRUD functionality for articles is implemented in admin.js</p>
+                <button class="btn btn-primary" id="add-article-btn" data-testid="button-add-article">Add New Article</button>
+                <div id="articles-list" style="margin-top: 1.5rem;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Categories Panel -->
+            <div id="panel-categories" class="admin-panel" data-testid="panel-categories">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Manage Categories</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Note: Full CRUD functionality for categories is implemented in admin.js</p>
+                <button class="btn btn-primary" id="add-category-btn" data-testid="button-add-category">Add New Category</button>
+                <div id="categories-list" style="margin-top: 1.5rem;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- RSS Panel -->
+            <div id="panel-rss" class="admin-panel" data-testid="panel-rss">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">RSS Feed Management</h2>
+                <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h3 style="font-weight: 600; margin-bottom: 1rem;">Active RSS Feeds</h3>
+                    <ul style="list-style: none;" id="rss-feeds-list" data-testid="list-rss-feeds">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border);">Technology News</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border);">Artificial Intelligence</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border);">Machine Learning</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border);">Programming</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border);">Cybersecurity</li>
+                        <li style="padding: 0.5rem 0;">Gadgets & Hardware</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" id="refresh-rss-btn" data-testid="button-refresh-rss">Manual Refresh RSS</button>
+                <p style="color: var(--color-text-tertiary); font-size: 0.875rem; margin-top: 0.5rem;">Last fetch: <span id="last-fetch-time">Never</span></p>
+            </div>
+
+            <!-- Settings Panel -->
+            <div id="panel-settings" class="admin-panel" data-testid="panel-settings">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Settings</h2>
+                <div style="max-width: 600px;">
+                    <div class="form-group">
+                        <label for="whatsapp-number">WhatsApp Number</label>
+                        <input type="text" id="whatsapp-number" class="form-input" value="254791943551" data-testid="input-whatsapp-number">
+                    </div>
+                    <div class="form-group">
+                        <label for="site-name">Site Name</label>
+                        <input type="text" id="site-name" class="form-input" value="Byte by Philip" data-testid="input-site-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="instagram-handle">Instagram Handle</label>
+                        <input type="text" id="instagram-handle" class="form-input" value="@bytebyphilip" data-testid="input-instagram">
+                    </div>
+                    <div class="form-group">
+                        <label for="facebook-handle">Facebook Handle</label>
+                        <input type="text" id="facebook-handle" class="form-input" value="@bytebyphilip" data-testid="input-facebook">
+                    </div>
+                    <div class="form-group">
+                        <label for="tiktok-handle">TikTok Handle</label>
+                        <input type="text" id="tiktok-handle" class="form-input" value="@bytebyphilip" data-testid="input-tiktok">
+                    </div>
+                    <button class="btn btn-primary" id="save-settings-btn" data-testid="button-save-settings">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" data-testid="toast-notification"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="admin.js"></script>
+    <script type="module">
+        const ADMIN_PASSWORD = '@bytebyphilip7619ke';
+
+        // Check if already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            showDashboard();
+        }
+
+        // Login
+        document.getElementById('login-btn').addEventListener('click', login);
+        document.getElementById('admin-password').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') login();
+        });
+
+        function login() {
+            const password = document.getElementById('admin-password').value;
+            const errorEl = document.getElementById('login-error');
+
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                showDashboard();
+            } else {
+                errorEl.textContent = 'Incorrect password. Please try again.';
+                errorEl.style.display = 'block';
+                document.getElementById('admin-password').value = '';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-dashboard').classList.add('active');
+        }
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
+        });
+
+        // Tab switching
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const targetTab = e.target.dataset.tab;
+                
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+                
+                e.target.classList.add('active');
+                document.getElementById(`panel-${targetTab}`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

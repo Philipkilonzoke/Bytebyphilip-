@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Latest tech news, AI updates, and ML breakthroughs from around the web">
+    <meta property="og:title" content="Tech News - Byte by Philip">
+    <meta property="og:description" content="Stay updated with the latest in technology, AI, and machine learning">
+    <title>News - Byte by Philip</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header id="site-header" class="site-header" data-testid="header-main">
+        <div class="header-container">
+            <div class="header-left">
+                <button id="menu-toggle" class="icon-btn menu-toggle" aria-label="Toggle menu" data-testid="button-menu-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <a href="/" class="header-brand" data-testid="link-home">
+                    <img src="assets/logo.png" alt="Byte by Philip" class="header-logo">
+                    <span class="header-brand-text">Byte by Philip</span>
+                </a>
+            </div>
+            <div class="header-right">
+                <button id="search-toggle" class="icon-btn" aria-label="Search" data-testid="button-search-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+                <a href="cart.html" class="icon-btn cart-btn" data-testid="link-cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cart-count" data-testid="text-cart-count">0</span>
+                </a>
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" data-testid="button-theme-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar" data-testid="sidebar-menu"></nav>
+    <div id="sidebar-overlay" class="sidebar-overlay" data-testid="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding-top: 2rem;">
+        <div class="container">
+            <div class="page-header" data-testid="page-header">
+                <h1 style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">Latest Tech News</h1>
+                <p style="color: var(--color-text-secondary); font-size: 1.125rem;">Stay updated with the latest in technology, AI, and machine learning</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs" style="display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;" data-testid="filter-tabs">
+                <button class="filter-tab active" data-filter="all" data-testid="filter-all" style="padding: 0.75rem 1.5rem; background: var(--color-primary); color: var(--color-bg); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">All News</button>
+                <button class="filter-tab" data-filter="tech" data-testid="filter-tech" style="padding: 0.75rem 1.5rem; background: var(--color-surface); color: var(--color-text-primary); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">Technology</button>
+                <button class="filter-tab" data-filter="ai" data-testid="filter-ai" style="padding: 0.75rem 1.5rem; background: var(--color-surface); color: var(--color-text-primary); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">AI & ML</button>
+                <button class="filter-tab" data-filter="programming" data-testid="filter-programming" style="padding: 0.75rem 1.5rem; background: var(--color-surface); color: var(--color-text-primary); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">Programming</button>
+                <button class="filter-tab" data-filter="security" data-testid="filter-security" style="padding: 0.75rem 1.5rem; background: var(--color-surface); color: var(--color-text-primary); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">Cybersecurity</button>
+                <button class="filter-tab" data-filter="gadgets" data-testid="filter-gadgets" style="padding: 0.75rem 1.5rem; background: var(--color-surface); color: var(--color-text-primary); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">Gadgets</button>
+                <button class="filter-tab" data-filter="custom" data-testid="filter-custom" style="padding: 0.75rem 1.5rem; background: var(--color-surface); color: var(--color-text-primary); border-radius: var(--radius-full); font-weight: 600; transition: all 0.2s;">My Articles</button>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" style="text-align: center; padding: 3rem;">
+                <p style="color: var(--color-text-secondary);">Loading news...</p>
+            </div>
+
+            <!-- News Grid -->
+            <div class="news-grid" id="news-grid" data-testid="grid-news" style="display: none;">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" data-testid="footer-main"></footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" data-testid="toast-notification"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
+    <script type="module" src="rss.js"></script>
+    <script type="module">
+        import { getArticles } from './firestore-helpers.js';
+        import { fetchAllRSSFeeds } from './rss.js';
+        import { showToast } from './app.js';
+
+        let allNews = [];
+        let currentFilter = 'all';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialFilter = urlParams.get('filter') || 'all';
+
+        async function loadNews() {
+            try {
+                // Fetch both RSS and custom articles
+                const [rssItems, customArticles] = await Promise.all([
+                    fetchAllRSSFeeds(),
+                    getArticles()
+                ]);
+
+                // Combine and sort by date
+                allNews = [...rssItems, ...customArticles].sort((a, b) => {
+                    const dateA = new Date(a.publishedAt || a.pubDate);
+                    const dateB = new Date(b.publishedAt || b.pubDate);
+                    return dateB - dateA;
+                });
+
+                currentFilter = initialFilter;
+                if (initialFilter !== 'all') {
+                    const tab = document.querySelector(`[data-filter="${initialFilter}"]`);
+                    if (tab) {
+                        document.querySelectorAll('.filter-tab').forEach(t => {
+                            t.classList.remove('active');
+                            t.style.background = 'var(--color-surface)';
+                            t.style.color = 'var(--color-text-primary)';
+                        });
+                        tab.classList.add('active');
+                        tab.style.background = 'var(--color-primary)';
+                        tab.style.color = 'var(--color-bg)';
+                    }
+                }
+
+                renderNews();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('news-grid').style.display = 'grid';
+            } catch (error) {
+                console.error('Error loading news:', error);
+                showToast('Failed to load news', 'error');
+                document.getElementById('loading').innerHTML = '<p style="color: var(--color-text-secondary);">Failed to load news. Please try again later.</p>';
+            }
+        }
+
+        function renderNews() {
+            const filtered = currentFilter === 'all' 
+                ? allNews 
+                : currentFilter === 'custom'
+                ? allNews.filter(item => !item.isExternal)
+                : allNews.filter(item => item.category && item.category.toLowerCase().includes(currentFilter));
+
+            const grid = document.getElementById('news-grid');
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><p style="color: var(--color-text-secondary); font-size: 1.125rem;">No news found.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map((item, index) => {
+                const isExternal = item.isExternal || item.externalUrl;
+                const url = isExternal ? item.link || item.externalUrl : `article.html?slug=${item.slug}`;
+                const target = isExternal ? '_blank' : '_self';
+                const source = item.source || (isExternal ? 'Google News' : 'Byte by Philip');
+                const timeAgo = getTimeAgo(new Date(item.publishedAt || item.pubDate));
+                
+                return `
+                    <a href="${url}" target="${target}" rel="${isExternal ? 'noopener' : ''}" class="news-card" data-testid="card-news-${index}">
+                        <img src="${item.image || 'assets/default-news.jpg'}" alt="${item.title}" class="news-thumbnail" loading="lazy">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-source">${source}</span>
+                                <span class="news-time">${timeAgo}</span>
+                            </div>
+                            <h3 class="news-title">${truncate(item.title, 100)}</h3>
+                            <p class="news-excerpt">${truncate(item.excerpt || item.summary || '', 150)}</p>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        function truncate(str, length) {
+            if (str.length <= length) return str;
+            return str.substring(0, length) + '...';
+        }
+
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            if (seconds < 60) return 'Just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days}d ago`;
+            const weeks = Math.floor(days / 7);
+            if (weeks < 4) return `${weeks}w ago`;
+            const months = Math.floor(days / 30);
+            return `${months}mo ago`;
+        }
+
+        // Filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                currentFilter = e.target.dataset.filter;
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.style.background = 'var(--color-surface)';
+                    t.style.color = 'var(--color-text-primary)';
+                });
+                e.target.classList.add('active');
+                e.target.style.background = 'var(--color-primary)';
+                e.target.style.color = 'var(--color-bg)';
+                renderNews();
+            });
+        });
+
+        loadNews();
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse our collection of tech products - PDFs, apps, tools, courses, and more from Byte by Philip">
+    <meta property="og:title" content="Products - Byte by Philip">
+    <meta property="og:description" content="High-quality tech products for developers, designers, and tech enthusiasts">
+    <title>Products - Byte by Philip</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header id="site-header" class="site-header" data-testid="header-main">
+        <div class="header-container">
+            <div class="header-left">
+                <button id="menu-toggle" class="icon-btn menu-toggle" aria-label="Toggle menu" data-testid="button-menu-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <a href="/" class="header-brand" data-testid="link-home">
+                    <img src="assets/logo.png" alt="Byte by Philip" class="header-logo">
+                    <span class="header-brand-text">Byte by Philip</span>
+                </a>
+            </div>
+            <div class="header-right">
+                <button id="search-toggle" class="icon-btn" aria-label="Search" data-testid="button-search-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+                <a href="cart.html" class="icon-btn cart-btn" data-testid="link-cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cart-count" data-testid="text-cart-count">0</span>
+                </a>
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" data-testid="button-theme-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="search-bar" class="search-bar hidden" data-testid="search-bar">
+            <input type="search" id="search-input" placeholder="Search products..." data-testid="input-search">
+            <button id="search-close" class="search-close" data-testid="button-search-close">×</button>
+        </div>
+    </header>
+
+    <!-- Sidebar (same structure as index.html) -->
+    <nav id="sidebar" class="sidebar" data-testid="sidebar-menu"></nav>
+    <div id="sidebar-overlay" class="sidebar-overlay" data-testid="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding-top: 2rem;">
+        <div class="container">
+            <div class="page-header" data-testid="page-header">
+                <h1 style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">All Products</h1>
+                <p style="color: var(--color-text-secondary); font-size: 1.125rem;">Discover high-quality tech products, tools, and resources</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar" data-testid="filters-bar" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.5rem; margin: 2rem 0;">
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem;">Category</label>
+                            <select id="filter-category" class="filter-select" data-testid="select-category" style="width: 100%; padding: 0.75rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
+                                <option value="">All Categories</option>
+                                <option value="PDF">PDFs</option>
+                                <option value="App">Apps</option>
+                                <option value="Tools">Tools & Scripts</option>
+                                <option value="Course">Courses</option>
+                                <option value="Template">Templates & UI Kits</option>
+                                <option value="Plugin">Plugins & Extensions</option>
+                                <option value="AI">AI Models & Demos</option>
+                                <option value="Service">Services & Consultations</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem;">Subcategory</label>
+                            <select id="filter-subcategory" class="filter-select" data-testid="select-subcategory" style="width: 100%; padding: 0.75rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
+                                <option value="">All Subcategories</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem;">Sort By</label>
+                            <select id="sort-by" class="filter-select" data-testid="select-sort" style="width: 100%; padding: 0.75rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
+                                <option value="newest">Newest First</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem;">Price Range: <span id="price-range-value">0 - 10000</span> KES</label>
+                        <input type="range" id="price-range" min="0" max="10000" value="10000" data-testid="input-price-range" style="width: 100%; accent-color: var(--color-primary);">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Count -->
+            <div class="results-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <p id="results-count" data-testid="text-results-count" style="color: var(--color-text-secondary);">Loading products...</p>
+                <button id="clear-filters" class="btn btn-outline" data-testid="button-clear-filters" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Clear Filters</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="products-grid" data-testid="grid-products">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination" data-testid="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem;">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" data-testid="footer-main"></footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" data-testid="toast-notification"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
+    <script type="module">
+        import { getProducts } from './firestore-helpers.js';
+        import { showToast, addToCart } from './app.js';
+
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const productsPerPage = 12;
+
+        // Get URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialCategory = urlParams.get('category');
+
+        // Load products
+        async function loadProducts() {
+            try {
+                allProducts = await getProducts();
+                if (initialCategory) {
+                    document.getElementById('filter-category').value = initialCategory;
+                }
+                applyFilters();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                showToast('Failed to load products', 'error');
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const category = document.getElementById('filter-category').value;
+            const subcategory = document.getElementById('filter-subcategory').value;
+            const maxPrice = parseInt(document.getElementById('price-range').value);
+            const sortBy = document.getElementById('sort-by').value;
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+            filteredProducts = allProducts.filter(product => {
+                if (!product.published) return false;
+                if (category && product.category !== category) return false;
+                if (subcategory && product.subcategory !== subcategory) return false;
+                if (product.price > maxPrice) return false;
+                if (searchQuery && !product.title.toLowerCase().includes(searchQuery) && !product.shortDescription.toLowerCase().includes(searchQuery)) return false;
+                return true;
+            });
+
+            // Sort
+            if (sortBy === 'price-low') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-high') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            } else {
+                filteredProducts.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+            }
+
+            currentPage = 1;
+            renderProducts();
+            renderPagination();
+            updateResultsCount();
+        }
+
+        // Render products
+        function renderProducts() {
+            const start = (currentPage - 1) * productsPerPage;
+            const end = start + productsPerPage;
+            const pageProducts = filteredProducts.slice(start, end);
+
+            const grid = document.getElementById('products-grid');
+            if (pageProducts.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><p style="color: var(--color-text-secondary); font-size: 1.125rem;">No products found matching your filters.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = pageProducts.map(product => `
+                <div class="product-card" data-testid="card-product-${product.slug}">
+                    <div style="position: relative;">
+                        <img src="${product.image || 'assets/products/placeholder.jpg'}" alt="${product.title}" class="product-image" loading="lazy">
+                        <span class="product-category">${product.category}</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.shortDescription}</p>
+                        <p class="product-price">${product.currency} ${product.price.toLocaleString()}</p>
+                        <div class="product-actions">
+                            <a href="product.html?slug=${product.slug}" class="btn btn-outline" data-testid="button-view-${product.slug}">View Details</a>
+                            <button class="btn btn-primary add-to-cart-btn" data-product='${JSON.stringify(product)}' data-testid="button-add-cart-${product.slug}">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add to cart listeners
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const product = JSON.parse(e.target.dataset.product);
+                    addToCart(product);
+                });
+            });
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '<button class="btn btn-outline" data-page="prev" style="padding: 0.5rem 1rem;" data-testid="button-page-prev">Previous</button>';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    html += `<button class="btn btn-primary" style="padding: 0.5rem 1rem;" data-testid="button-page-${i}">${i}</button>`;
+                } else {
+                    html += `<button class="btn btn-outline" data-page="${i}" style="padding: 0.5rem 1rem;" data-testid="button-page-${i}">${i}</button>`;
+                }
+            }
+            
+            html += '<button class="btn btn-outline" data-page="next" style="padding: 0.5rem 1rem;" data-testid="button-page-next">Next</button>';
+            
+            pagination.innerHTML = html;
+
+            pagination.querySelectorAll('[data-page]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const page = e.target.dataset.page;
+                    if (page === 'prev' && currentPage > 1) {
+                        currentPage--;
+                    } else if (page === 'next' && currentPage < totalPages) {
+                        currentPage++;
+                    } else if (!isNaN(page)) {
+                        currentPage = parseInt(page);
+                    }
+                    renderProducts();
+                    renderPagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        }
+
+        // Update results count
+        function updateResultsCount() {
+            document.getElementById('results-count').textContent = `Showing ${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''}`;
+        }
+
+        // Event listeners
+        document.getElementById('filter-category').addEventListener('change', applyFilters);
+        document.getElementById('filter-subcategory').addEventListener('change', applyFilters);
+        document.getElementById('sort-by').addEventListener('change', applyFilters);
+        document.getElementById('price-range').addEventListener('input', (e) => {
+            document.getElementById('price-range-value').textContent = `0 - ${e.target.value}`;
+        });
+        document.getElementById('price-range').addEventListener('change', applyFilters);
+        document.getElementById('search-input').addEventListener('input', applyFilters);
+        document.getElementById('clear-filters').addEventListener('click', () => {
+            document.getElementById('filter-category').value = '';
+            document.getElementById('filter-subcategory').value = '';
+            document.getElementById('sort-by').value = 'newest';
+            document.getElementById('price-range').value = 10000;
+            document.getElementById('price-range-value').textContent = '0 - 10000';
+            document.getElementById('search-input').value = '';
+            applyFilters();
+        });
+
+        // Initialize
+        loadProducts();
+    </script>
+</body>
+</html>
