@@ -296,10 +296,24 @@ byte-by-philip/
 
 ## 🔒 Security Notes
 
-- Admin password is stored in plain text (client-side only)
-- For production, implement proper authentication
-- Add Firestore security rules to prevent unauthorized access
-- Consider using Firebase Authentication for real user accounts
+⚠️ **IMPORTANT: This is a demonstration project with client-side only security**
+
+- **Admin Password**: The admin password (`@bytebyphilip7619ke`) is hard-coded in client-side JavaScript. This provides NO real security - anyone can view the source code and see the password. This is acceptable for a personal portfolio/demo site but NOT for production with sensitive data.
+
+- **Firestore Security**: In production, you MUST configure Firestore security rules to prevent unauthorized access. Current setup allows anyone to read/write if they know how to access Firestore directly.
+
+- **For Production Use**:
+  - Implement Firebase Authentication with proper user roles
+  - Configure strict Firestore security rules
+  - Use environment variables for sensitive configuration
+  - Consider backend API for admin operations
+  - Implement rate limiting and monitoring
+
+- **Current Use Case**: This setup is suitable for:
+  - Personal portfolio sites
+  - Demo/learning projects  
+  - Sites where data is not sensitive
+  - Prototypes and MVPs
 
 ## 🚧 Future Enhancements
 
